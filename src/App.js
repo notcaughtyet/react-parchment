@@ -1,13 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
   
-    
+    useEffect(() => {
+      console.log('useffecting')
+    })
+  
+    const [textBox1, setTextBox1] = useState(<div className="testDiv" style={{display: "hidden"}} ></div>)
   
     document.addEventListener('mouseup', checkForSelection);
   
+    
+    // let textBox = <div className="testDiv" style={{display: "hidden"}} ></div>
+
+    
+    function newText(e) {
+      e.preventDefault()
+      
+      var posX = e.clientX;
+      var posY = e.clientY;
+      
+      console.log('double click')
+      console.log(posX, posY)
+      
+      setTextBox1(<input className="mainInput" autoFocus="autofocus" onFocus={handleFocus} style={{left: posX - 3, top: posY - 11}}></input>)
+    }
+    
+    
+    const handleFocus = (event) => event.target.select();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     let textBeingDragged;
     let originalNode
   
@@ -53,18 +93,11 @@ function App() {
       return false;
     }
     
-  const divs = []
-  
-  for (let i = 0; i <= 8000; i++) {
-      divs.push(<div className="square"></div>)
-  }
+
     
   return (
-    <div className="App">
-      <div className="squareContainer">
-        {divs}
-      </div>
-      
+    <div className="App" onDoubleClick={newText}>
+      {textBox1}
       <div>hello</div>
       <p>h</p>
       <p>e</p>
@@ -74,3 +107,10 @@ function App() {
 }
 
 export default App;
+
+
+// const divs = []
+  
+// for (let i = 0; i <= 8000; i++) {
+//     divs.push(<div className="square"></div>)
+// }

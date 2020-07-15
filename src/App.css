@@ -1,15 +1,36 @@
 .App {
   text-align: center;
+  height: 100vh;
 }
 
 .squareContainer {
 }
 
 .square {
-  float: left;
+  /* float: left; */
   width: 1vw;
   height: 1vh;
   background: #E7E5DB;
   margin: 0;
   border: 1px solid black;
+}
+
+.mainInput {
+  position: absolute;
+  background: transparent;
+	border: 2px solid black;
+  color: black;
+  border-top: none;
+	border-right: none;
+	border-left: none;
+	caret-color: black;
+	font-weight: 800;
+}
+
+.mainInput:focus {
+	outline: 0
+}
+
+::placeholder {
+	font-weight: bold;
 }
