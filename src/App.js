@@ -6,7 +6,7 @@ function App() {
   
     const [textBox1, setTextBox1] = useState(<div className="testDiv" style={{display: "hidden"}} ></div>)
     
-    const [text1, setText1] = useState(<p className="text1"></p>)
+    const [text1, setText1] = useState(<div className="text1"></div>)
     
     useEffect(() => {
       console.log('useffecting')
@@ -23,14 +23,20 @@ function App() {
     
     function newText(e) {
       e.preventDefault()
+      if (e.detail === 3) {
+        
+        posX = e.clientX;
+        posY = e.clientY;
+        
+        
+        console.log('double click')
+        console.log(posX, posY)
+        
+        setTextBox1(<input className="mainInput" autoFocus="autofocus" onFocus={handleFocus} onMouseOver={handleFocus} onKeyUp={handleEnter} style={{left: posX - 3, top: posY - 11}}></input>)
+        
+      }
       
-      posX = e.clientX;
-      posY = e.clientY;
       
-      console.log('double click')
-      console.log(posX, posY)
-      
-      setTextBox1(<input className="mainInput" autoFocus="autofocus" onFocus={handleFocus} onMouseOver={handleFocus} onKeyUp={handleEnter} style={{left: posX - 3, top: posY - 11}}></input>)
             
     }
     
@@ -39,7 +45,7 @@ function App() {
           console.log(posX);
           console.log(e.target.value)
           
-          setText1(<p className="text1">{e.target.value}</p>)
+          setText1(<div className="text1">{e.target.value}</div>)
           
           e.target.value = ""
         }
@@ -114,7 +120,7 @@ function App() {
     
     
   return (
-    <div className="App" onDoubleClick={newText}>
+    <div className="App" onClick={newText}>
       {textBox1}
       {text1}
     </div>

@@ -3,11 +3,26 @@
   height: 100vh;
 }
 
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+::-webkit-scrollbar-track {
+	display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  /* background-color: rgba(105, 95, 73, 0.447); */
+  background-color: red;
+	width: 30px;
+}
+
+
+
 .squareContainer {
 }
 
 .square {
-  /* float: left; */
   width: 1vw;
   height: 1vh;
   background: #E7E5DB;
@@ -34,3 +49,4 @@
 ::placeholder {
 	font-weight: bold;
 }
+
