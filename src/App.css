@@ -17,6 +17,11 @@
 	width: 30px;
 }
 
+.hidden {
+  display: none;
+}
+
+
 
 
 .squareContainer {

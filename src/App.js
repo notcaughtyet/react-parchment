@@ -6,7 +6,11 @@ function App() {
   
     const [textBox1, setTextBox1] = useState(<div className="testDiv" style={{display: "hidden"}} ></div>)
     
-    const [text1, setText1] = useState(<div className="text1"></div>)
+    const [text1, setText1] = useState([<div className="text0" key="0"></div>])
+    
+    const [showInput, setShowInput] = useState(false)
+    const [posX, setposX] = useState(0)
+    const [posY, setposY] = useState(0)
     
     useEffect(() => {
       console.log('useffecting')
@@ -18,21 +22,23 @@ function App() {
   
     
     // let textBox = <div className="testDiv" style={{display: "hidden"}} ></div>
-    let posX
-    let posY
     
     function newText(e) {
       e.preventDefault()
       if (e.detail === 3) {
         
-        posX = e.clientX;
-        posY = e.clientY;
+        setShowInput(true)
         
+        let posX = e.clientX;
+        let posY = e.clientY;
+        
+        setposX(posX)
+        setposY(posY)
         
         console.log('double click')
         console.log(posX, posY)
         
-        setTextBox1(<input className="mainInput" autoFocus="autofocus" onFocus={handleFocus} onMouseOver={handleFocus} onKeyUp={handleEnter} style={{left: posX - 3, top: posY - 11}}></input>)
+        // setTextBox1(<input className="mainInput" autoFocus="autofocus" onFocus={handleFocus} onMouseOver={handleFocus} onKeyUp={handleEnter} style={{left: posX - 3, top: posY - 11}}></input>)
         
       }
       
@@ -45,7 +51,7 @@ function App() {
           console.log(posX);
           console.log(e.target.value)
           
-          setText1(<div className="text1">{e.target.value}</div>)
+        setText1([...text1, <div className="text1">{e.target.value}</div>])
           
           e.target.value = ""
         }
@@ -121,6 +127,14 @@ function App() {
     
   return (
     <div className="App" onClick={newText}>
+      <input className={showInput ? 'mainInput' : 'hidden'} 
+      autoFocus="autofocus" 
+      onFocus={handleFocus} 
+      onMouseOver={handleFocus} 
+      onKeyUp={handleEnter} 
+      style={{left: posX - 3, top: posY - 11}}>
+        
+      </input>
       {textBox1}
       {text1}
     </div>
