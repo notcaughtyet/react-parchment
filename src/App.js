@@ -19,6 +19,11 @@ function App() {
 
   
     document.addEventListener('mouseup', checkForSelection);
+    document.addEventListener('mousedown', (e) => {
+      if(e.target.className === "App" && e.detail > 1) {
+        e.preventDefault()
+      }
+    });
     // document.addEventListener('mousemove', () => {
     //   console.log(document.body.style.cursor)
     // })
@@ -27,9 +32,9 @@ function App() {
     // let textBox = <div className="testDiv" style={{display: "hidden"}} ></div>
     
     function newText(e) {
-      console.log(e.target);
 
       e.preventDefault()
+      
       if (e.detail === 2 && e.target.className === "App") {
         
         
@@ -58,7 +63,7 @@ function App() {
           console.log(e.target.value)
           
           setText1([...text1, 
-            <div className="text1" style={{left: posX, top: posY}} key={text1.length}>
+            <div className="text1" style={{left: posX, top: posY,}} key={text1.length}>
               <span className="textSpan">
                 {e.target.value}
               </span>
