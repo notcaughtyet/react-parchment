@@ -61,3 +61,15 @@
 .text1 {
   position: absolute;
 }
+
+.textSpan {
+  outline: 0;
+}
+
+.textSpan:hover {
+  border-bottom: 2px solid black;
+}
+
+.textSpan:focus {
+  border-bottom: 2px solid black;
+}

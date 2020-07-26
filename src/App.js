@@ -64,9 +64,9 @@ function App() {
           
           setText1([...text1, 
             <div className="text1" style={{left: posX, top: posY,}} key={text1.length}>
-              <span className="textSpan">
+              <div className="textSpan" contentEditable="true" style={{whiteSpace: 'pre'}}>
                 {e.target.value}
-              </span>
+              </div>
             </div>
           ])
           
@@ -143,7 +143,19 @@ function App() {
     
 
     
-    
+    // function textAreaTab(event) {
+    //   if(event.keyCode===9) {
+    //     event.preventDefault()
+    //     let target = event.target
+    //     var v=target.value,
+    //     s=target.selectionStart,
+    //     e=target.selectionEnd;
+        
+    //     target.value=v.substring(0, s)+'\t'+v.substring(e);
+    //     target.selectionStart=target.selectionEnd=s+1;
+    //     return false;
+    //   }
+    // }
     
   return (
     <div className="App" onClick={newText}>
@@ -151,7 +163,8 @@ function App() {
       autoFocus="autofocus" 
       onFocus={handleFocus} 
       onMouseOver={handleFocus} 
-      onKeyUp={handleEnter} 
+      onKeyUp={handleEnter}
+      // onKeyDown={textAreaTab} 
       style={{left: posX - 3, top: posY - 11}}>
         
       </textarea>
