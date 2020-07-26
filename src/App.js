@@ -16,16 +16,22 @@ function App() {
       console.log('useffecting')
     })
   
-    
+
   
     document.addEventListener('mouseup', checkForSelection);
+    // document.addEventListener('mousemove', () => {
+    //   console.log(document.body.style.cursor)
+    // })
   
     
     // let textBox = <div className="testDiv" style={{display: "hidden"}} ></div>
     
     function newText(e) {
+      console.log(e.target);
+
       e.preventDefault()
-      if (e.detail === 3) {
+      if (e.detail === 2 && e.target.className === "App") {
+        
         
         setShowInput(true)
         
@@ -47,11 +53,20 @@ function App() {
     }
     
     function handleEnter(e) {
-        if (e.keyCode === 13) {
+        if (e.keyCode === 13 && !e.shiftKey) {
           console.log(posX);
           console.log(e.target.value)
           
-        setText1([...text1, <div className="text1">{e.target.value}</div>])
+          setText1([...text1, 
+            <div className="text1" style={{left: posX, top: posY}} key={text1.length}>
+              <span className="textSpan">
+                {e.target.value}
+              </span>
+            </div>
+          ])
+          
+          // setShowInput(false)
+          setposY(posY + 40)
           
           e.target.value = ""
         }
@@ -127,14 +142,14 @@ function App() {
     
   return (
     <div className="App" onClick={newText}>
-      <input className={showInput ? 'mainInput' : 'hidden'} 
+      <textarea className={showInput ? 'mainInput' : 'hidden'} 
       autoFocus="autofocus" 
       onFocus={handleFocus} 
       onMouseOver={handleFocus} 
       onKeyUp={handleEnter} 
       style={{left: posX - 3, top: posY - 11}}>
         
-      </input>
+      </textarea>
       {textBox1}
       {text1}
     </div>

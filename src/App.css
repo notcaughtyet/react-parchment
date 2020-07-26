@@ -40,9 +40,9 @@
   background: transparent;
 	border: 2px solid black;
   color: black;
-  border-top: none;
+  /* border-top: none;
 	border-right: none;
-	border-left: none;
+	border-left: none; */
 	caret-color: black;
 	font-weight: 800;
 }
@@ -55,3 +55,9 @@
 	font-weight: bold;
 }
 
+
+
+
+.text1 {
+  position: absolute;
+}
