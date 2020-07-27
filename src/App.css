@@ -13,7 +13,6 @@
 
 ::-webkit-scrollbar-thumb {
   /* background-color: rgba(105, 95, 73, 0.447); */
-  background-color: red;
 	width: 30px;
 }
 
@@ -38,14 +37,16 @@
 .mainInput {
   position: absolute;
   background: transparent;
-	border: 2px solid black;
+	border: 3px solid #ce3636;
   color: black;
   /* border-top: none;
 	border-right: none;
 	border-left: none; */
 	caret-color: black;
   font-weight: 800;
-  height: 2vh;
+  height: 2.3vh;
+  width: 17vh;
+  font-size: 11pt;
 }
 
 .mainInput:focus {
@@ -65,14 +66,17 @@
 
 .textSpan {
   outline: 0;
+  border: 2px solid transparent;
 }
 
 .textSpan:hover {
-  border: 2px solid black;
+  border-color: black;
+  cursor: pointer;
   padding: 1px;
 }
 
 .textSpan:focus {
   border: 2px solid black;
   padding: 1px;
+  cursor: text;
 }
