@@ -4,11 +4,12 @@ import './App.css';
 
 function App() {
   
-    const [textBox1, setTextBox1] = useState(<div className="testDiv" style={{display: "hidden"}} ></div>)
     
     const [text1, setText1] = useState([<div className="text0" key="0"></div>])
     
     const [showInput, setShowInput] = useState(false)
+    const [inputText, setInputText] = useState(null)
+    
     const [posX, setposX] = useState(0)
     const [posY, setposY] = useState(0)
     
@@ -53,12 +54,32 @@ function App() {
         
       }
       
+      if (e.detail === 2 && e.target.className === "textSpan") {
+        let initialText = e.target.value
+        
+        console.log(e.target)
+        
+        setShowInput(true)
+        
+        let posX = e.clientX;
+        let posY = e.clientY;
+        
+        setposX(posX)
+        setposY(posY)
+        
+        console.log(e.target.innerText)
+        
+        e.target.innerText = ''
+        
+      }
+      
       
             
     }
     
     function handleEnter(e) {
         if (e.keyCode === 13 && !e.shiftKey) {
+          
           console.log(posX);
           console.log(e.target.value)
           
@@ -165,10 +186,10 @@ function App() {
       onMouseOver={handleFocus} 
       onKeyUp={handleEnter}
       // onKeyDown={textAreaTab} 
-      style={{left: posX - 3, top: posY - 11}}>
-        
+      style={{left: posX - 3, top: posY - 11}}
+      >
       </textarea>
-      {textBox1}
+      
       {text1}
     </div>
   );

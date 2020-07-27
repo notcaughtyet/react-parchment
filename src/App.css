@@ -44,7 +44,8 @@
 	border-right: none;
 	border-left: none; */
 	caret-color: black;
-	font-weight: 800;
+  font-weight: 800;
+  height: 2vh;
 }
 
 .mainInput:focus {
@@ -67,9 +68,11 @@
 }
 
 .textSpan:hover {
-  border-bottom: 2px solid black;
+  border: 2px solid black;
+  padding: 1px;
 }
 
 .textSpan:focus {
-  border-bottom: 2px solid black;
+  border: 2px solid black;
+  padding: 1px;
 }
