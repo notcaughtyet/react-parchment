@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
+import { motion } from 'framer-motion'
 import './App.css';
 
 function App() {
@@ -59,17 +60,17 @@ function App() {
         
         console.log(e.target)
         
-        setShowInput(true)
+        // setShowInput(true)
         
-        let posX = e.clientX;
-        let posY = e.clientY;
+        // let posX = e.clientX;
+        // let posY = e.clientY;
         
-        setposX(posX)
-        setposY(posY)
+        // setposX(posX)
+        // setposY(posY)
         
-        console.log(e.target.innerText)
+        // console.log(e.target.innerText)
         
-        e.target.innerText = ''
+        // e.target.innerText = ''
         
       }
       
@@ -84,11 +85,17 @@ function App() {
           console.log(e.target.value)
           
           setText1([...text1, 
-            <div className="text1" style={{left: posX, top: posY,}} key={text1.length}>
-              <div className="textSpan" contentEditable="true" style={{whiteSpace: 'pre'}}>
+            <motion.div 
+            className="text1" 
+            style={{left: posX, top: posY,}} 
+            key={text1.length} 
+            drag
+            dragMomentum={false}
+            >
+              <div className="textSpan" contentEditable="true" style={{whiteSpace: 'pre'}} onMouseDown={cancelFocus} onDoubleClick={handleFocus}>
                 {e.target.value}
               </div>
-            </div>
+            </motion.div>
           ])
           
           // setShowInput(false)
@@ -98,8 +105,17 @@ function App() {
         }
       }
       
-    const handleFocus = (event) => event.target.select();
+    function handleFocus(e) {
+      console.log(e.target)
+      e.target.focus();
+    }
     
+    function cancelFocus(e) {
+      console.log('canceling')
+      if(e.target != document.activeElement) {
+        e.preventDefault()
+      }
+    }
     
     
     
