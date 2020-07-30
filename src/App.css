@@ -1,11 +1,12 @@
 .App {
   text-align: center;
   height: 100vh;
-  background: #edc67d;
+  background: #e9c9a0;
   -webkit-font-smoothing: subpixel-antialiased;
   /* -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%); */
+  font-size: 11pt;
 }
 
 ::-webkit-scrollbar {
@@ -28,30 +29,21 @@
 
 
 
-.squareContainer {
-}
-
-.square {
-  width: 1vw;
-  height: 1vh;
-  background: #E7E5DB;
-  margin: 0;
-  border: 1px solid black;
-}
 
 .mainInput {
   position: absolute;
   background: transparent;
 	border: 3px solid #ce3636;
   color: black;
-  /* border-top: none;
+  border-top: none;
 	border-right: none;
-	border-left: none; */
-	caret-color: black;
+	border-left: none;
+	caret-color: red;
   font-weight: 800;
   height: 2.3vh;
-  width: 17vh;
+  width: 20vh;
   font-size: 11pt;
+  resize: none;
 }
 
 .mainInput:focus {

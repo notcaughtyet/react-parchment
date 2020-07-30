@@ -20,7 +20,6 @@ function App() {
   
 
   
-    document.addEventListener('mouseup', checkForSelection);
     document.addEventListener('mousedown', (e) => {
       if(e.target.className === "App" && e.detail > 1) {
         e.preventDefault()
@@ -87,19 +86,19 @@ function App() {
           setText1([...text1, 
             <motion.div 
             className="text1" 
-            style={{left: posX, top: posY,}} 
+            style={{left: posX - 2, top: posY - 8,}} 
             key={text1.length} 
             drag
             dragMomentum={false}
             >
-              <div className="textSpan" contentEditable="true" style={{whiteSpace: 'pre'}} onMouseDown={cancelFocus} onDoubleClick={handleFocus}>
+              <div className="textSpan" contentEditable="true" spellcheck="false" style={{whiteSpace: 'pre'}} onMouseDown={cancelFocus} onDoubleClick={handleFocus}>
                 {e.target.value}
               </div>
             </motion.div>
           ])
           
           // setShowInput(false)
-          setposY(posY + 40)
+          setposY(posY + 20)
           
           e.target.value = ""
         }
@@ -131,52 +130,52 @@ function App() {
     
     
     
+    // document.addEventListener('mouseup', checkForSelection);
     
-    
-    let textBeingDragged;
-    let originalNode
+    // let textBeingDragged;
+    // let originalNode
   
-    function checkForSelection(event) {
-      const selection = window.getSelection();
-      console.log(selection)
-      const selectedText = selection.toString();
-      console.log(selectedText)
-      if (selectedText) {
-        originalNode = selection.anchorNode.parentNode;
-        textBeingDragged = selectedText;
-        document.addEventListener('dragend', handleDragEnd);
-      }
-    }
+    // function checkForSelection(event) {
+    //   const selection = window.getSelection();
+    //   console.log(selection)
+    //   const selectedText = selection.toString();
+    //   console.log(selectedText)
+    //   if (selectedText) {
+    //     originalNode = selection.anchorNode.parentNode;
+    //     textBeingDragged = selectedText;
+    //     document.addEventListener('dragend', handleDragEnd);
+    //   }
+    // }
     
-    function handleDragEnd(event) {
-      const charRange = getCharPosition(event);
-      const elemDrugOver = charRange.endContainer;
-      if (elemDrugOver.nodeType === 3) {
-        const offset = charRange.startOffset;
-        const startText = elemDrugOver.wholeText.slice(0, offset);
-        const endText = elemDrugOver.wholeText.slice(offset);
-        elemDrugOver.textContent = `${startText}${textBeingDragged}${endText}`;
+    // function handleDragEnd(event) {
+    //   const charRange = getCharPosition(event);
+    //   const elemDrugOver = charRange.endContainer;
+    //   if (elemDrugOver.nodeType === 3) {
+    //     const offset = charRange.startOffset;
+    //     const startText = elemDrugOver.wholeText.slice(0, offset);
+    //     const endText = elemDrugOver.wholeText.slice(offset);
+    //     elemDrugOver.textContent = `${startText}${textBeingDragged}${endText}`;
         
-        const origText = originalNode.textContent;
-        const indexOfSelection = origText.indexOf(textBeingDragged);
-        const origStartText = origText.slice(0, indexOfSelection);
-        const origEndText = origText.slice(offset + textBeingDragged.length);
-        originalNode.textContent = `${origStartText}${origEndText}`;
+    //     const origText = originalNode.textContent;
+    //     const indexOfSelection = origText.indexOf(textBeingDragged);
+    //     const origStartText = origText.slice(0, indexOfSelection);
+    //     const origEndText = origText.slice(offset + textBeingDragged.length);
+    //     originalNode.textContent = `${origStartText}${origEndText}`;
   
-        textBeingDragged = undefined;
-        originalNode = undefined;
-      }
-      document.removeEventListener('dragend', handleDragEnd);
-    }
+    //     textBeingDragged = undefined;
+    //     originalNode = undefined;
+    //   }
+    //   document.removeEventListener('dragend', handleDragEnd);
+    // }
     
-    function getCharPosition(event) {
-      if (document.caretPositionFromPoint) {
-        return document.caretPositionFromPoint(event.clientX, event.clientY);
-      } else if (document.caretRangeFromPoint) {
-        return document.caretRangeFromPoint(event.clientX, event.clientY);
-      }
-      return false;
-    }
+    // function getCharPosition(event) {
+    //   if (document.caretPositionFromPoint) {
+    //     return document.caretPositionFromPoint(event.clientX, event.clientY);
+    //   } else if (document.caretRangeFromPoint) {
+    //     return document.caretRangeFromPoint(event.clientX, event.clientY);
+    //   }
+    //   return false;
+    // }
     
 
     
