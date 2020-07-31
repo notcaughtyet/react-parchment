@@ -77,21 +77,23 @@ function App() {
             
     }
     
-    function handleEnter(e) {
-        if (e.keyCode === 13 && !e.shiftKey) {
-          
+    function handleKeyUp(e) {
+
+        if (e.keyCode === 13 && !e.shiftKey && e.target.value.trim().length !== 0) {
+          e.target.style.width = 20 + 'vh'
           console.log(posX);
-          console.log(e.target.value)
+          console.log(typeof e.target.value)
+          console.log(e.target.value.trim().length)
           
           setText1([...text1, 
             <motion.div 
             className="text1" 
-            style={{left: posX - 2, top: posY - 8,}} 
+            style={{left: posX - 4, top: posY - 8,}} 
             key={text1.length} 
             drag
             dragMomentum={false}
             >
-              <div className="textSpan" contentEditable="true" spellcheck="false" style={{whiteSpace: 'pre'}} onMouseDown={cancelFocus} onDoubleClick={handleFocus}>
+              <div className="textSpan" contentEditable="true" spellCheck="false" style={{whiteSpace: 'pre'}} onMouseDown={cancelFocus} onDoubleClick={handleFocus}>
                 {e.target.value}
               </div>
             </motion.div>
@@ -102,6 +104,7 @@ function App() {
           
           e.target.value = ""
         }
+        
       }
       
     function handleFocus(e) {
@@ -116,7 +119,24 @@ function App() {
       }
     }
     
-    
+    function handleKeyDown(e) {
+      // e.target.style.width = 'inherit'
+      
+      if (e.keyCode === 13 && e.target.value.trim().length === 0) {
+        e.preventDefault()
+      }
+      
+      let characterLength = e.target.value.length
+      console.log(characterLength)
+      let style = window.getComputedStyle(e.target)
+      let width = parseInt(style.getPropertyValue('width'))
+      console.log(width)
+      console.log(characterLength / width)
+      if (characterLength / width > .1) {
+        console.log('changing width');
+        e.target.style.width = (width + width/10) + 'px'
+      }
+    }
     
     
     
@@ -198,10 +218,13 @@ function App() {
       <textarea className={showInput ? 'mainInput' : 'hidden'} 
       autoFocus="autofocus" 
       onFocus={handleFocus} 
+      contentEditable={true}
       onMouseOver={handleFocus} 
-      onKeyUp={handleEnter}
+      onKeyUp={handleKeyUp}
+      onKeyDown={handleKeyDown}
       // onKeyDown={textAreaTab} 
       style={{left: posX - 3, top: posY - 11}}
+      spellCheck="false"
       >
       </textarea>
       

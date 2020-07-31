@@ -38,13 +38,13 @@
   border-top: none;
 	border-right: none;
 	border-left: none;
-	caret-color: red;
+	caret-color: #ce3636;
   font-weight: 800;
   height: 2.3vh;
   width: 20vh;
   font-size: 11pt;
   resize: none;
-}
+  }
 
 .mainInput:focus {
 	outline: 0
