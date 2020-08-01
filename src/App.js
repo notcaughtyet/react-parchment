@@ -9,10 +9,14 @@ function App() {
     const [text1, setText1] = useState([<div className="text0" key="0"></div>])
     
     const [showInput, setShowInput] = useState(false)
+    const [showHighlightTool, setShowHighlightTool] = useState(false)
+    
     const [inputText, setInputText] = useState(null)
     
     const [posX, setposX] = useState(0)
     const [posY, setposY] = useState(0)
+    
+    const [mouseDownPosition, setMouseDownPosition] = useState([null])
     
     useEffect(() => {
       console.log('useffecting')
@@ -21,13 +25,27 @@ function App() {
 
   
     document.addEventListener('mousedown', (e) => {
+      // prevent weird highlighting
       if(e.target.className === "App" && e.detail > 1) {
         e.preventDefault()
+      }
+      if(e.target.className === "App" && e.detail === 1) {
+        document.addEventListener('mousemove', handleClickedMouseMove)
+        document.addEventListener('mouseup', (e) => {
+          document.removeEventListener('mousemove', handleClickedMouseMove)
+        })
       }
     });
     // document.addEventListener('mousemove', () => {
     //   console.log(document.body.style.cursor)
     // })
+    
+    function handleClickedMouseMove(e) {
+      console.log(e.clientX)
+      
+      setShowHighlightTool(true)
+      
+    }
   
     
     // let textBox = <div className="testDiv" style={{display: "hidden"}} ></div>
@@ -216,17 +234,19 @@ function App() {
   return (
     <div className="App" onClick={newText}>
       <textarea className={showInput ? 'mainInput' : 'hidden'} 
-      autoFocus="autofocus" 
-      onFocus={handleFocus} 
-      contentEditable={true}
-      onMouseOver={handleFocus} 
-      onKeyUp={handleKeyUp}
-      onKeyDown={handleKeyDown}
-      // onKeyDown={textAreaTab} 
-      style={{left: posX - 3, top: posY - 11}}
-      spellCheck="false"
+        autoFocus="autofocus" 
+        onFocus={handleFocus} 
+        contentEditable={true}
+        onMouseOver={handleFocus} 
+        onKeyUp={handleKeyUp}
+        onKeyDown={handleKeyDown}
+        // onKeyDown={textAreaTab} 
+        style={{left: posX - 3, top: posY - 11}}
+        spellCheck="false"
       >
       </textarea>
+      
+      <div className={showHighlightTool ? 'highlightTool' : 'hidden'}></div>
       
       {text1}
     </div>
