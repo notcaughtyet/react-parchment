@@ -17,6 +17,10 @@ function App() {
     const [posY, setposY] = useState(0)
     
     const [mouseDownPosition, setMouseDownPosition] = useState([null])
+    const [highlightPosX, setHighlightPosX] = useState(null)
+    const [highlightPosY, setHighlightPosY] = useState(null)
+    const [highlightWidth, setHighlightWidth] = useState(0)
+    const [highlightHeight, setHighlightHeight] = useState(0)
     
     useEffect(() => {
       console.log('useffecting')
@@ -30,21 +34,55 @@ function App() {
         e.preventDefault()
       }
       if(e.target.className === "App" && e.detail === 1) {
+        document.addEventListener('mouseup', handleMouseUp)
+
         document.addEventListener('mousemove', handleClickedMouseMove)
-        document.addEventListener('mouseup', (e) => {
-          document.removeEventListener('mousemove', handleClickedMouseMove)
-        })
+        // document.addEventListener('mouseup', (e) => {
+        //   if(e.target.className === "App" && e.detail === 1) {
+        //     console.log('removingevent')
+        //     document.removeEventListener('mousemove', handleClickedMouseMove)
+        //     initialMouseDown = null
+        //   }
+        // })
       }
     });
     // document.addEventListener('mousemove', () => {
     //   console.log(document.body.style.cursor)
     // })
     
+    function handleMouseUp() {
+      console.log('removingevent')
+      document.removeEventListener('mousemove', handleClickedMouseMove)
+      initialMouseDown = null
+      setShowHighlightTool(false)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+    
+    
+    let initialMouseDown = null
+    
     function handleClickedMouseMove(e) {
-      console.log(e.clientX)
+      console.log(e.clientX)    
       
-      setShowHighlightTool(true)
+      let posX = e.clientX
+      let posY = e.clientY
       
+      if(!showHighlightTool) {
+        setShowHighlightTool(true)
+      }
+      
+      if (!initialMouseDown) {
+        initialMouseDown = [posX, posY]
+      } else if(!highlightPosX) {
+        setHighlightPosX(initialMouseDown[0])
+        setHighlightPosY(initialMouseDown[1])
+      }
+      
+      setHighlightWidth(Math.abs(initialMouseDown[0] - posX))
+      setHighlightHeight(Math.abs(initialMouseDown[0] - posY))
+      
+      
+      console.log(initialMouseDown)
     }
   
     
@@ -246,7 +284,11 @@ function App() {
       >
       </textarea>
       
-      <div className={showHighlightTool ? 'highlightTool' : 'hidden'}></div>
+      <div className={showHighlightTool ? 'highlightTool' : 'hidden'}
+        style={{left: highlightPosX - 3, top: highlightPosY - 11, width: highlightWidth, height: highlightHeight}}
+      >
+        
+      </div>
       
       {text1}
     </div>
