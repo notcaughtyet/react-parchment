@@ -33,18 +33,18 @@ function App() {
       if(e.target.className === "App" && e.detail > 1) {
         e.preventDefault()
       }
-      if(e.target.className === "App" && e.detail === 1) {
-        document.addEventListener('mouseup', handleMouseUp)
+      // if(e.target.className === "App" && e.detail === 1) {
+      //   document.addEventListener('mouseup', handleMouseUp)
 
-        document.addEventListener('mousemove', handleClickedMouseMove)
-        // document.addEventListener('mouseup', (e) => {
-        //   if(e.target.className === "App" && e.detail === 1) {
-        //     console.log('removingevent')
-        //     document.removeEventListener('mousemove', handleClickedMouseMove)
-        //     initialMouseDown = null
-        //   }
-        // })
-      }
+      //   document.addEventListener('mousemove', handleClickedMouseMove)
+      //   // document.addEventListener('mouseup', (e) => {
+      //   //   if(e.target.className === "App" && e.detail === 1) {
+      //   //     console.log('removingevent')
+      //   //     document.removeEventListener('mousemove', handleClickedMouseMove)
+      //   //     initialMouseDown = null
+      //   //   }
+      //   // })
+      // }
     });
     // document.addEventListener('mousemove', () => {
     //   console.log(document.body.style.cursor)
@@ -269,8 +269,54 @@ function App() {
     //   }
     // }
     
+    function onPan(event, info) {
+      let mouseDownPosition={}
+      console.log(info.point.x, info.point.y);
+      
+      let posX = info.point.x
+      let posY = info.point.y
+      
+      console.log(info.offset.x)
+      console.log(info.offset.y)
+      
+      if(!highlightPosX) {
+        console.log('setting')
+        setHighlightPosX(posX)
+        setHighlightPosY(posY)
+      }
+      
+      
+      setHighlightWidth(Math.abs(info.offset.x))
+      setHighlightHeight(Math.abs(info.offset.y))
+    }
+    
+    function handlePanStart(event, info) {
+      console.log(info.point.x)    
+      
+      let posX = info.point.x
+      let posY = info.point.y
+      
+      if(!showHighlightTool) {
+        setShowHighlightTool(true)
+      }
+      
+      if (!mouseDownPosition) {
+        setMouseDownPosition([posX, posY])
+      } 
+      
+      // console.log(mouseDownPosition)
+    }
+    
+    function handlePanEnd(event, info) {
+      setShowHighlightTool(false)
+      setHighlightPosX(null)
+      setHighlightPosY(null)
+      setHighlightWidth(null)
+      setHighlightHeight(null)
+    }
+    
   return (
-    <div className="App" onClick={newText}>
+    <motion.div className="App" onClick={newText} onPan={onPan} onPanStart={handlePanStart} onPanEnd={handlePanEnd}>
       <textarea className={showInput ? 'mainInput' : 'hidden'} 
         autoFocus="autofocus" 
         onFocus={handleFocus} 
@@ -284,14 +330,14 @@ function App() {
       >
       </textarea>
       
-      <div className={showHighlightTool ? 'highlightTool' : 'hidden'}
+      <motion.div className={showHighlightTool ? 'highlightTool' : 'hidden'}
         style={{left: highlightPosX - 3, top: highlightPosY - 11, width: highlightWidth, height: highlightHeight}}
       >
         
-      </div>
+      </motion.div>
       
       {text1}
-    </div>
+    </motion.div>
   );
 }
 
