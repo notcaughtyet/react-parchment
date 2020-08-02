@@ -44,7 +44,7 @@
   width: 20vh;
   font-size: 11pt;
   resize: none;
-  transform: rotate(34deg)
+  /* transform: rotate(34deg) */
   }
 
 .mainInput:focus {
