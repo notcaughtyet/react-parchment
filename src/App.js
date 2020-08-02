@@ -17,8 +17,8 @@ function App() {
     const [posY, setposY] = useState(0)
     
     const [mouseDownPosition, setMouseDownPosition] = useState([null])
-    const [highlightPosX, setHighlightPosX] = useState(null)
-    const [highlightPosY, setHighlightPosY] = useState(null)
+    const [highlightCornerX, setHighlightCornerX] = useState(null)
+    const [highlightCornerY, setHighlightCornerY] = useState(null)
     const [highlightWidth, setHighlightWidth] = useState(0)
     const [highlightHeight, setHighlightHeight] = useState(0)
     
@@ -50,40 +50,40 @@ function App() {
     //   console.log(document.body.style.cursor)
     // })
     
-    function handleMouseUp() {
-      console.log('removingevent')
-      document.removeEventListener('mousemove', handleClickedMouseMove)
-      initialMouseDown = null
-      setShowHighlightTool(false)
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
+    // function handleMouseUp() {
+    //   console.log('removingevent')
+    //   document.removeEventListener('mousemove', handleClickedMouseMove)
+    //   initialMouseDown = null
+    //   setShowHighlightTool(false)
+    //   document.removeEventListener('mouseup', handleMouseUp)
+    // }
     
     
-    let initialMouseDown = null
+    // let initialMouseDown = null
     
-    function handleClickedMouseMove(e) {
-      console.log(e.clientX)    
+    // function handleClickedMouseMove(e) {
+    //   console.log(e.clientX)    
       
-      let posX = e.clientX
-      let posY = e.clientY
+    //   let posX = e.clientX
+    //   let posY = e.clientY
       
-      if(!showHighlightTool) {
-        setShowHighlightTool(true)
-      }
+    //   if(!showHighlightTool) {
+    //     setShowHighlightTool(true)
+    //   }
       
-      if (!initialMouseDown) {
-        initialMouseDown = [posX, posY]
-      } else if(!highlightPosX) {
-        setHighlightPosX(initialMouseDown[0])
-        setHighlightPosY(initialMouseDown[1])
-      }
+    //   if (!initialMouseDown) {
+    //     initialMouseDown = [posX, posY]
+    //   } else if(!highlightPosX) {
+    //     setHighlightPosX(initialMouseDown[0])
+    //     setHighlightPosY(initialMouseDown[1])
+    //   }
       
-      setHighlightWidth(Math.abs(initialMouseDown[0] - posX))
-      setHighlightHeight(Math.abs(initialMouseDown[0] - posY))
+    //   setHighlightWidth(Math.abs(initialMouseDown[0] - posX))
+    //   setHighlightHeight(Math.abs(initialMouseDown[0] - posY))
       
       
-      console.log(initialMouseDown)
-    }
+    //   console.log(initialMouseDown)
+    // }
   
     
     // let textBox = <div className="testDiv" style={{display: "hidden"}} ></div>
@@ -159,6 +159,8 @@ function App() {
           setposY(posY + 20)
           
           e.target.value = ""
+        } else if (e.keyCode === 13 && !e.shiftKey && e.target.value.trim().length == 0 ) {
+          setShowInput(false)
         }
         
       }
@@ -279,10 +281,9 @@ function App() {
       console.log(info.offset.x)
       console.log(info.offset.y)
       
-      if(!highlightPosX) {
-        console.log('setting')
-        setHighlightPosX(posX)
-        setHighlightPosY(posY)
+      if(!highlightCornerX) {
+        setHighlightCornerX(posX)
+        setHighlightCornerY(posY)
       }
       
       
@@ -291,26 +292,18 @@ function App() {
     }
     
     function handlePanStart(event, info) {
-      console.log(info.point.x)    
-      
-      let posX = info.point.x
-      let posY = info.point.y
-      
+      if(showInput) {
+        setShowInput(false)
+      }
       if(!showHighlightTool) {
         setShowHighlightTool(true)
       }
-      
-      if (!mouseDownPosition) {
-        setMouseDownPosition([posX, posY])
-      } 
-      
-      // console.log(mouseDownPosition)
     }
     
     function handlePanEnd(event, info) {
       setShowHighlightTool(false)
-      setHighlightPosX(null)
-      setHighlightPosY(null)
+      setHighlightCornerX(null)
+      setHighlightCornerY(null)
       setHighlightWidth(null)
       setHighlightHeight(null)
     }
@@ -331,7 +324,7 @@ function App() {
       </textarea>
       
       <motion.div className={showHighlightTool ? 'highlightTool' : 'hidden'}
-        style={{left: highlightPosX - 3, top: highlightPosY - 11, width: highlightWidth, height: highlightHeight}}
+        style={{left: highlightCornerX - 3, top: highlightCornerY - 11, width: highlightWidth, height: highlightHeight, transform: `rotate(${0}deg)`, transformOrigin: 'top'}}
       >
         
       </motion.div>
