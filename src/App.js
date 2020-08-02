@@ -16,11 +16,17 @@ function App() {
     const [posX, setposX] = useState(0)
     const [posY, setposY] = useState(0)
     
+    
+    
+    
+    //HIGHLIGHT TOOL
     const [mouseDownPosition, setMouseDownPosition] = useState([null])
     const [highlightCornerX, setHighlightCornerX] = useState(null)
     const [highlightCornerY, setHighlightCornerY] = useState(null)
+    
     const [highlightWidth, setHighlightWidth] = useState(0)
     const [highlightHeight, setHighlightHeight] = useState(0)
+    const [hRotation, setHRotation] = useState(0)
     
     useEffect(() => {
       console.log('useffecting')
@@ -289,6 +295,33 @@ function App() {
       
       setHighlightWidth(Math.abs(info.offset.x))
       setHighlightHeight(Math.abs(info.offset.y))
+
+      
+      if(info.offset.x < 0) {
+        setHRotation(90)
+        setHighlightWidth(Math.abs(info.offset.y))
+        setHighlightHeight(Math.abs(info.offset.x))
+      } 
+      
+      if(info.offset.y < 0) {    
+        setHRotation(-90)  
+        setHighlightWidth(Math.abs(info.offset.y))
+        setHighlightHeight(Math.abs(info.offset.x))  
+      } 
+      
+      if (info.offset.y < 0 && info.offset.x < 0) {
+        setHRotation(180)
+        setHighlightWidth(Math.abs(info.offset.x))
+        setHighlightHeight(Math.abs(info.offset.y))
+      }
+      
+      if (info.offset.y > 0 && info.offset.x > 0) {
+        setHRotation(0)
+        setHighlightWidth(Math.abs(info.offset.x))
+        setHighlightHeight(Math.abs(info.offset.y))
+      }
+      
+      
     }
     
     function handlePanStart(event, info) {
@@ -309,11 +342,20 @@ function App() {
     }
     
   return (
-    <motion.div className="App" onClick={newText} onPan={onPan} onPanStart={handlePanStart} onPanEnd={handlePanEnd}>
-      <textarea className={showInput ? 'mainInput' : 'hidden'} 
+    <motion.div 
+      className="App" 
+      onClick={newText} 
+      onPan={onPan} 
+      onPanStart={handlePanStart} 
+      onPanEnd={handlePanEnd}
+    >
+      
+      <textarea 
+        className={showInput ? 'mainInput' : 'hidden'} 
         autoFocus="autofocus" 
         onFocus={handleFocus} 
         contentEditable={true}
+        suppressContentEditableWarning={true}
         onMouseOver={handleFocus} 
         onKeyUp={handleKeyUp}
         onKeyDown={handleKeyDown}
@@ -323,10 +365,10 @@ function App() {
       >
       </textarea>
       
-      <motion.div className={showHighlightTool ? 'highlightTool' : 'hidden'}
-        style={{left: highlightCornerX - 3, top: highlightCornerY - 11, width: highlightWidth, height: highlightHeight, transform: `rotate(${0}deg)`, transformOrigin: 'top'}}
+      <motion.div 
+        className={showHighlightTool ? 'highlightTool' : 'hidden'}
+        style={{left: highlightCornerX - 2, top: highlightCornerY - 4, width: highlightWidth, height: highlightHeight, transform: `rotate(${hRotation}deg)`, transformOrigin: 'top left',}}
       >
-        
       </motion.div>
       
       {text1}
