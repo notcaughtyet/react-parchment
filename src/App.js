@@ -38,6 +38,8 @@ function App() {
       // prevent weird highlighting
       if(e.target.className === "App" && e.detail > 1) {
         e.preventDefault()
+      } else {
+        console.log(e.target.className)
       }
       // if(e.target.className === "App" && e.detail === 1) {
       //   document.addEventListener('mouseup', handleMouseUp)
@@ -278,58 +280,62 @@ function App() {
     // }
     
     function onPan(event, info) {
-      let mouseDownPosition={}
-      console.log(info.point.x, info.point.y);
-      
-      let posX = info.point.x
-      let posY = info.point.y
-      
-      console.log(info.offset.x)
-      console.log(info.offset.y)
-      
-      if(!highlightCornerX) {
-        setHighlightCornerX(posX)
-        setHighlightCornerY(posY)
-      }
-      
-      
-      setHighlightWidth(Math.abs(info.offset.x))
-      setHighlightHeight(Math.abs(info.offset.y))
+      if(event.target.className === 'App') {
+        
+        let mouseDownPosition={}
+        console.log(info.point.x, info.point.y);
+        
+        let posX = info.point.x
+        let posY = info.point.y
+        
+        console.log(info.offset.x)
+        console.log(info.offset.y)
+        
+        if(!highlightCornerX) {
+          setHighlightCornerX(posX)
+          setHighlightCornerY(posY)
+        }
+        
+        
+        setHighlightWidth(Math.abs(info.offset.x))
+        setHighlightHeight(Math.abs(info.offset.y))
 
-      
-      if(info.offset.x < 0) {
-        setHRotation(90)
-        setHighlightWidth(Math.abs(info.offset.y))
-        setHighlightHeight(Math.abs(info.offset.x))
-      } 
-      
-      if(info.offset.y < 0) {    
-        setHRotation(-90)  
-        setHighlightWidth(Math.abs(info.offset.y))
-        setHighlightHeight(Math.abs(info.offset.x))  
-      } 
-      
-      if (info.offset.y < 0 && info.offset.x < 0) {
-        setHRotation(180)
-        setHighlightWidth(Math.abs(info.offset.x))
-        setHighlightHeight(Math.abs(info.offset.y))
+        
+        if(info.offset.x < 0) {
+          setHRotation(90)
+          setHighlightWidth(Math.abs(info.offset.y))
+          setHighlightHeight(Math.abs(info.offset.x))
+        } 
+        
+        if(info.offset.y < 0) {    
+          setHRotation(-90)  
+          setHighlightWidth(Math.abs(info.offset.y))
+          setHighlightHeight(Math.abs(info.offset.x))  
+        } 
+        
+        if (info.offset.y < 0 && info.offset.x < 0) {
+          setHRotation(180)
+          setHighlightWidth(Math.abs(info.offset.x))
+          setHighlightHeight(Math.abs(info.offset.y))
+        }
+        
+        if (info.offset.y > 0 && info.offset.x > 0) {
+          setHRotation(0)
+          setHighlightWidth(Math.abs(info.offset.x))
+          setHighlightHeight(Math.abs(info.offset.y))
+        }
       }
-      
-      if (info.offset.y > 0 && info.offset.x > 0) {
-        setHRotation(0)
-        setHighlightWidth(Math.abs(info.offset.x))
-        setHighlightHeight(Math.abs(info.offset.y))
-      }
-      
       
     }
     
     function handlePanStart(event, info) {
-      if(showInput) {
-        setShowInput(false)
-      }
-      if(!showHighlightTool) {
-        setShowHighlightTool(true)
+      if(event.target.className === 'App') {
+        if(showInput) {
+          setShowInput(false)
+        }
+        if(!showHighlightTool) {
+          setShowHighlightTool(true)
+        }
       }
     }
     
