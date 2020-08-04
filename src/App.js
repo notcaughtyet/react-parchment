@@ -29,31 +29,29 @@ function App() {
     const [hRotation, setHRotation] = useState(0)
     
     useEffect(() => {
-      console.log('useffecting')
+      // console.log('useffecting')
     })
   
 
   
-    document.addEventListener('mousedown', (e) => {
-      // prevent weird highlighting
-      if(e.target.className === "App" && e.detail > 1) {
-        e.preventDefault()
-      } else {
-        console.log(e.target.className)
-      }
-      // if(e.target.className === "App" && e.detail === 1) {
-      //   document.addEventListener('mouseup', handleMouseUp)
+    // document.addEventListener('mousedown', (e) => {
+    //   // prevent weird highlighting
+    //   if(e.target.className === "App" && e.detail > 1) {
+    //     e.preventDefault()
+    //   }
+    //   // if(e.target.className === "App" && e.detail === 1) {
+    //   //   document.addEventListener('mouseup', handleMouseUp)
 
-      //   document.addEventListener('mousemove', handleClickedMouseMove)
-      //   // document.addEventListener('mouseup', (e) => {
-      //   //   if(e.target.className === "App" && e.detail === 1) {
-      //   //     console.log('removingevent')
-      //   //     document.removeEventListener('mousemove', handleClickedMouseMove)
-      //   //     initialMouseDown = null
-      //   //   }
-      //   // })
-      // }
-    });
+    //   //   document.addEventListener('mousemove', handleClickedMouseMove)
+    //   //   // document.addEventListener('mouseup', (e) => {
+    //   //   //   if(e.target.className === "App" && e.detail === 1) {
+    //   //   //     console.log('removingevent')
+    //   //   //     document.removeEventListener('mousemove', handleClickedMouseMove)
+    //   //   //     initialMouseDown = null
+    //   //   //   }
+    //   //   // })
+    //   // }
+    // });
     // document.addEventListener('mousemove', () => {
     //   console.log(document.body.style.cursor)
     // })
@@ -205,91 +203,19 @@ function App() {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // document.addEventListener('mouseup', checkForSelection);
-    
-    // let textBeingDragged;
-    // let originalNode
-  
-    // function checkForSelection(event) {
-    //   const selection = window.getSelection();
-    //   console.log(selection)
-    //   const selectedText = selection.toString();
-    //   console.log(selectedText)
-    //   if (selectedText) {
-    //     originalNode = selection.anchorNode.parentNode;
-    //     textBeingDragged = selectedText;
-    //     document.addEventListener('dragend', handleDragEnd);
-    //   }
-    // }
-    
-    // function handleDragEnd(event) {
-    //   const charRange = getCharPosition(event);
-    //   const elemDrugOver = charRange.endContainer;
-    //   if (elemDrugOver.nodeType === 3) {
-    //     const offset = charRange.startOffset;
-    //     const startText = elemDrugOver.wholeText.slice(0, offset);
-    //     const endText = elemDrugOver.wholeText.slice(offset);
-    //     elemDrugOver.textContent = `${startText}${textBeingDragged}${endText}`;
-        
-    //     const origText = originalNode.textContent;
-    //     const indexOfSelection = origText.indexOf(textBeingDragged);
-    //     const origStartText = origText.slice(0, indexOfSelection);
-    //     const origEndText = origText.slice(offset + textBeingDragged.length);
-    //     originalNode.textContent = `${origStartText}${origEndText}`;
-  
-    //     textBeingDragged = undefined;
-    //     originalNode = undefined;
-    //   }
-    //   document.removeEventListener('dragend', handleDragEnd);
-    // }
-    
-    // function getCharPosition(event) {
-    //   if (document.caretPositionFromPoint) {
-    //     return document.caretPositionFromPoint(event.clientX, event.clientY);
-    //   } else if (document.caretRangeFromPoint) {
-    //     return document.caretRangeFromPoint(event.clientX, event.clientY);
-    //   }
-    //   return false;
-    // }
-    
 
-    
-    // function textAreaTab(event) {
-    //   if(event.keyCode===9) {
-    //     event.preventDefault()
-    //     let target = event.target
-    //     var v=target.value,
-    //     s=target.selectionStart,
-    //     e=target.selectionEnd;
-        
-    //     target.value=v.substring(0, s)+'\t'+v.substring(e);
-    //     target.selectionStart=target.selectionEnd=s+1;
-    //     return false;
-    //   }
-    // }
+ 
     
     function onPan(event, info) {
       if(event.target.className === 'App') {
         
-        let mouseDownPosition={}
-        console.log(info.point.x, info.point.y);
+        // console.log(info.point.x, info.point.y);
         
         let posX = info.point.x
         let posY = info.point.y
         
-        console.log(info.offset.x)
-        console.log(info.offset.y)
+        // console.log(info.offset.x)
+        // console.log(info.offset.y)
         
         if(!highlightCornerX) {
           setHighlightCornerX(posX)
@@ -373,7 +299,13 @@ function App() {
       
       <motion.div 
         className={showHighlightTool ? 'highlightTool' : 'hidden'}
-        style={{left: highlightCornerX - 2, top: highlightCornerY - 4, width: highlightWidth, height: highlightHeight, transform: `rotate(${hRotation}deg)`, transformOrigin: 'top left',}}
+        style={{left: highlightCornerX - 2, 
+                top: highlightCornerY - 4, 
+                width: highlightWidth, 
+                height: highlightHeight, 
+                transform: `rotate(${hRotation}deg)`, 
+                transformOrigin: 'top left',
+              }}
       >
       </motion.div>
       
@@ -395,3 +327,66 @@ export default App;
 // for (let i = 0; i <= 8000; i++) {
 //     divs.push(<div className="square"></div>)
 // }
+
+// document.addEventListener('mouseup', checkForSelection);
+    
+    // let textBeingDragged;
+    // let originalNode
+  
+    // function checkForSelection(event) {
+    //   const selection = window.getSelection();
+    //   console.log(selection)
+    //   const selectedText = selection.toString();
+    //   console.log(selectedText)
+    //   if (selectedText) {
+    //     originalNode = selection.anchorNode.parentNode;
+    //     textBeingDragged = selectedText;
+    //     document.addEventListener('dragend', handleDragEnd);
+    //   }
+    // }
+    
+    // function handleDragEnd(event) {
+    //   const charRange = getCharPosition(event);
+    //   const elemDrugOver = charRange.endContainer;
+    //   if (elemDrugOver.nodeType === 3) {
+    //     const offset = charRange.startOffset;
+    //     const startText = elemDrugOver.wholeText.slice(0, offset);
+    //     const endText = elemDrugOver.wholeText.slice(offset);
+    //     elemDrugOver.textContent = `${startText}${textBeingDragged}${endText}`;
+        
+    //     const origText = originalNode.textContent;
+    //     const indexOfSelection = origText.indexOf(textBeingDragged);
+    //     const origStartText = origText.slice(0, indexOfSelection);
+    //     const origEndText = origText.slice(offset + textBeingDragged.length);
+    //     originalNode.textContent = `${origStartText}${origEndText}`;
+  
+    //     textBeingDragged = undefined;
+    //     originalNode = undefined;
+    //   }
+    //   document.removeEventListener('dragend', handleDragEnd);
+    // }
+    
+    // function getCharPosition(event) {
+    //   if (document.caretPositionFromPoint) {
+    //     return document.caretPositionFromPoint(event.clientX, event.clientY);
+    //   } else if (document.caretRangeFromPoint) {
+    //     return document.caretRangeFromPoint(event.clientX, event.clientY);
+    //   }
+    //   return false;
+    // }
+    
+
+    
+    // function textAreaTab(event) {
+    //   if(event.keyCode===9) {
+    //     event.preventDefault()
+    //     let target = event.target
+    //     var v=target.value,
+    //     s=target.selectionStart,
+    //     e=target.selectionEnd;
+        
+    //     target.value=v.substring(0, s)+'\t'+v.substring(e);
+    //     target.selectionStart=target.selectionEnd=s+1;
+    //     return false;
+    //   }
+    // }
