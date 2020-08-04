@@ -9,7 +9,6 @@ function App() {
     const [text1, setText1] = useState([<div className="text0" key="0"></div>])
     
     const [showInput, setShowInput] = useState(false)
-    const [showHighlightTool, setShowHighlightTool] = useState(false)
     
     const [inputText, setInputText] = useState(null)
     
@@ -20,13 +19,18 @@ function App() {
     
     
     //HIGHLIGHT TOOL
-    const [mouseDownPosition, setMouseDownPosition] = useState([null])
+    const [showHighlightTool, setShowHighlightTool] = useState(false)
+
     const [highlightCornerX, setHighlightCornerX] = useState(null)
     const [highlightCornerY, setHighlightCornerY] = useState(null)
     
     const [highlightWidth, setHighlightWidth] = useState(0)
     const [highlightHeight, setHighlightHeight] = useState(0)
     const [hRotation, setHRotation] = useState(0)
+    
+    const [allowPan, setAllowPan] = useState(false)
+    
+    const [textMouseDown, setTextMouseDown] = useState(false)
     
     useEffect(() => {
       // console.log('useffecting')
@@ -155,8 +159,19 @@ function App() {
             drag
             dragMomentum={false}
             >
-              <div className="textSpan" contentEditable="true" spellCheck="false" style={{whiteSpace: 'pre'}} onMouseDown={cancelFocus} onDoubleClick={handleFocus}>
-                {e.target.value}
+              <div 
+                className="textSpan" 
+                contentEditable="true" 
+                spellCheck="false" 
+                style={{
+                  whiteSpace: 'pre',
+                  borderColor: `${textMouseDown ? 'black' : 'transparent'}`,
+                }} 
+                onMouseDown={handleTextMouseDown} 
+                onMouseUp={handleMouseUp} 
+                onDoubleClick={handleFocus}
+                >
+                  {e.target.value}
               </div>
             </motion.div>
           ])
@@ -176,11 +191,17 @@ function App() {
       e.target.focus();
     }
     
-    function cancelFocus(e) {
-      console.log('canceling')
+    function handleTextMouseDown(e) {
+      console.log(e.target.className)
+      setTextMouseDown(true)
+      
       if(e.target != document.activeElement) {
         e.preventDefault()
       }
+    }
+    
+    function handleMouseUp(e) {
+      setTextMouseDown(false)
     }
     
     function handleKeyDown(e) {
@@ -206,8 +227,13 @@ function App() {
 
  
     
+    function appMouseDown(event, info) {
+      if(event.target.className==='App') {
+        setAllowPan(true)
+      }
+    }
+    
     function onPan(event, info) {
-      if(event.target.className === 'App') {
         
         // console.log(info.point.x, info.point.y);
         
@@ -250,7 +276,6 @@ function App() {
           setHighlightWidth(Math.abs(info.offset.x))
           setHighlightHeight(Math.abs(info.offset.y))
         }
-      }
       
     }
     
@@ -271,15 +296,21 @@ function App() {
       setHighlightCornerY(null)
       setHighlightWidth(null)
       setHighlightHeight(null)
+      setAllowPan(false)
     }
     
   return (
     <motion.div 
       className="App" 
       onClick={newText} 
-      onPan={onPan} 
-      onPanStart={handlePanStart} 
+      onPan={allowPan ? onPan : null} 
+      onPanStart={allowPan ? handlePanStart : null} 
       onPanEnd={handlePanEnd}
+      onMouseDown={appMouseDown}
+      onMouseUp={handleMouseUp}
+      style={{
+        cursor: `${textMouseDown ? 'pointer' : 'inherit'}`
+      }}
     >
       
       <textarea 
@@ -310,6 +341,7 @@ function App() {
       </motion.div>
       
       {text1}
+      
     </motion.div>
   );
 }

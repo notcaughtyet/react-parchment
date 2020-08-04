@@ -75,7 +75,7 @@
 }
 
 .textSpan:hover {
-  border-color: black;
+  border: 2px solid black;
   cursor: pointer;
   padding: 1px;
 }
