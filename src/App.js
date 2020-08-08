@@ -9,25 +9,91 @@ function App() {
     const [text1, setText1] = useState([<div className="text0" key="0"></div>])
     
     const [showInput, setShowInput] = useState(false)
+    
     const [inputText, setInputText] = useState(null)
     
     const [posX, setposX] = useState(0)
     const [posY, setposY] = useState(0)
     
+    
+    
+    
+    //HIGHLIGHT TOOL
+    const [showHighlightTool, setShowHighlightTool] = useState(false)
+
+    const [highlightCornerX, setHighlightCornerX] = useState(null)
+    const [highlightCornerY, setHighlightCornerY] = useState(null)
+    
+    const [highlightWidth, setHighlightWidth] = useState(0)
+    const [highlightHeight, setHighlightHeight] = useState(0)
+    const [hRotation, setHRotation] = useState(0)
+    
+    const [allowPan, setAllowPan] = useState(false)
+    
+    const [textMouseDown, setTextMouseDown] = useState(false)
+    
     useEffect(() => {
-      console.log('useffecting')
+      // console.log('useffecting')
     })
   
 
   
-    document.addEventListener('mousedown', (e) => {
-      if(e.target.className === "App" && e.detail > 1) {
-        e.preventDefault()
-      }
-    });
+    // document.addEventListener('mousedown', (e) => {
+    //   // prevent weird highlighting
+    //   if(e.target.className === "App" && e.detail > 1) {
+    //     e.preventDefault()
+    //   }
+    //   // if(e.target.className === "App" && e.detail === 1) {
+    //   //   document.addEventListener('mouseup', handleMouseUp)
+
+    //   //   document.addEventListener('mousemove', handleClickedMouseMove)
+    //   //   // document.addEventListener('mouseup', (e) => {
+    //   //   //   if(e.target.className === "App" && e.detail === 1) {
+    //   //   //     console.log('removingevent')
+    //   //   //     document.removeEventListener('mousemove', handleClickedMouseMove)
+    //   //   //     initialMouseDown = null
+    //   //   //   }
+    //   //   // })
+    //   // }
+    // });
     // document.addEventListener('mousemove', () => {
     //   console.log(document.body.style.cursor)
     // })
+    
+    // function handleMouseUp() {
+    //   console.log('removingevent')
+    //   document.removeEventListener('mousemove', handleClickedMouseMove)
+    //   initialMouseDown = null
+    //   setShowHighlightTool(false)
+    //   document.removeEventListener('mouseup', handleMouseUp)
+    // }
+    
+    
+    // let initialMouseDown = null
+    
+    // function handleClickedMouseMove(e) {
+    //   console.log(e.clientX)    
+      
+    //   let posX = e.clientX
+    //   let posY = e.clientY
+      
+    //   if(!showHighlightTool) {
+    //     setShowHighlightTool(true)
+    //   }
+      
+    //   if (!initialMouseDown) {
+    //     initialMouseDown = [posX, posY]
+    //   } else if(!highlightPosX) {
+    //     setHighlightPosX(initialMouseDown[0])
+    //     setHighlightPosY(initialMouseDown[1])
+    //   }
+      
+    //   setHighlightWidth(Math.abs(initialMouseDown[0] - posX))
+    //   setHighlightHeight(Math.abs(initialMouseDown[0] - posY))
+      
+      
+    //   console.log(initialMouseDown)
+    // }
   
     
     // let textBox = <div className="testDiv" style={{display: "hidden"}} ></div>
@@ -93,8 +159,19 @@ function App() {
             drag
             dragMomentum={false}
             >
-              <div className="textSpan" contentEditable="true" spellCheck="false" style={{whiteSpace: 'pre'}} onMouseDown={cancelFocus} onDoubleClick={handleFocus}>
-                {e.target.value}
+              <div 
+                className="textSpan" 
+                contentEditable="true" 
+                spellCheck="false" 
+                style={{
+                  whiteSpace: 'pre',
+                  borderColor: `${textMouseDown ? 'black' : 'transparent'}`,
+                }} 
+                onMouseDown={handleTextMouseDown} 
+                onMouseUp={handleMouseUp} 
+                onDoubleClick={handleFocus}
+                >
+                  {e.target.value}
               </div>
             </motion.div>
           ])
@@ -103,6 +180,8 @@ function App() {
           setposY(posY + 20)
           
           e.target.value = ""
+        } else if (e.keyCode === 13 && !e.shiftKey && e.target.value.trim().length == 0 ) {
+          setShowInput(false)
         }
         
       }
@@ -112,11 +191,17 @@ function App() {
       e.target.focus();
     }
     
-    function cancelFocus(e) {
-      console.log('canceling')
+    function handleTextMouseDown(e) {
+      console.log(e.target.className)
+      setTextMouseDown(true)
+      
       if(e.target != document.activeElement) {
         e.preventDefault()
       }
+    }
+    
+    function handleMouseUp(e) {
+      setTextMouseDown(false)
     }
     
     function handleKeyDown(e) {
@@ -139,18 +224,143 @@ function App() {
     }
     
     
+
+ 
     
+    function appMouseDown(event, info) {
+      if(event.target.className==='App') {
+        setAllowPan(true)
+      }
+    }
     
+    function onPan(event, info) {
+        
+        // console.log(info.point.x, info.point.y);
+        
+        let posX = info.point.x
+        let posY = info.point.y
+        
+        // console.log(info.offset.x)
+        // console.log(info.offset.y)
+        
+        if(!highlightCornerX) {
+          setHighlightCornerX(posX)
+          setHighlightCornerY(posY)
+        }
+        
+        
+        setHighlightWidth(Math.abs(info.offset.x))
+        setHighlightHeight(Math.abs(info.offset.y))
+
+        
+        if(info.offset.x < 0) {
+          setHRotation(90)
+          setHighlightWidth(Math.abs(info.offset.y))
+          setHighlightHeight(Math.abs(info.offset.x))
+        } 
+        
+        if(info.offset.y < 0) {    
+          setHRotation(-90)  
+          setHighlightWidth(Math.abs(info.offset.y))
+          setHighlightHeight(Math.abs(info.offset.x))  
+        } 
+        
+        if (info.offset.y < 0 && info.offset.x < 0) {
+          setHRotation(180)
+          setHighlightWidth(Math.abs(info.offset.x))
+          setHighlightHeight(Math.abs(info.offset.y))
+        }
+        
+        if (info.offset.y > 0 && info.offset.x > 0) {
+          setHRotation(0)
+          setHighlightWidth(Math.abs(info.offset.x))
+          setHighlightHeight(Math.abs(info.offset.y))
+        }
+      
+    }
     
+    function handlePanStart(event, info) {
+      if(event.target.className === 'App') {
+        if(showInput) {
+          setShowInput(false)
+        }
+        if(!showHighlightTool) {
+          setShowHighlightTool(true)
+        }
+      }
+    }
     
+    function handlePanEnd(event, info) {
+      setShowHighlightTool(false)
+      setHighlightCornerX(null)
+      setHighlightCornerY(null)
+      setHighlightWidth(null)
+      setHighlightHeight(null)
+      setAllowPan(false)
+    }
     
-    
-    
-    
-    
-    
-    
-    // document.addEventListener('mouseup', checkForSelection);
+  return (
+    <motion.div 
+      className="App" 
+      onClick={newText} 
+      onPan={allowPan ? onPan : null} 
+      onPanStart={allowPan ? handlePanStart : null} 
+      onPanEnd={handlePanEnd}
+      onMouseDown={appMouseDown}
+      onMouseUp={handleMouseUp}
+      style={{
+        cursor: `${textMouseDown ? 'pointer' : 'inherit'}`
+      }}
+    >
+      
+      <textarea 
+        className={showInput ? 'mainInput' : 'hidden'} 
+        autoFocus="autofocus" 
+        onFocus={handleFocus} 
+        contentEditable={true}
+        suppressContentEditableWarning={true}
+        onMouseOver={handleFocus} 
+        onKeyUp={handleKeyUp}
+        onKeyDown={handleKeyDown}
+        // onKeyDown={textAreaTab} 
+        style={{left: posX - 3, top: posY - 11}}
+        spellCheck="false"
+      >
+      </textarea>
+      
+      <motion.div 
+        className={showHighlightTool ? 'highlightTool' : 'hidden'}
+        style={{left: highlightCornerX - 2, 
+                top: highlightCornerY - 4, 
+                width: highlightWidth, 
+                height: highlightHeight, 
+                transform: `rotate(${hRotation}deg)`, 
+                transformOrigin: 'top left',
+              }}
+      >
+      </motion.div>
+      
+      {text1}
+      
+    </motion.div>
+  );
+}
+
+export default App;
+
+{/* <div>hello</div>
+<p>h</p>
+<p>e</p>
+<p>llo</p> */}
+
+
+// const divs = []
+  
+// for (let i = 0; i <= 8000; i++) {
+//     divs.push(<div className="square"></div>)
+// }
+
+// document.addEventListener('mouseup', checkForSelection);
     
     // let textBeingDragged;
     // let originalNode
@@ -212,37 +422,3 @@ function App() {
     //     return false;
     //   }
     // }
-    
-  return (
-    <div className="App" onClick={newText}>
-      <textarea className={showInput ? 'mainInput' : 'hidden'} 
-      autoFocus="autofocus" 
-      onFocus={handleFocus} 
-      contentEditable={true}
-      onMouseOver={handleFocus} 
-      onKeyUp={handleKeyUp}
-      onKeyDown={handleKeyDown}
-      // onKeyDown={textAreaTab} 
-      style={{left: posX - 3, top: posY - 11}}
-      spellCheck="false"
-      >
-      </textarea>
-      
-      {text1}
-    </div>
-  );
-}
-
-export default App;
-
-{/* <div>hello</div>
-<p>h</p>
-<p>e</p>
-<p>llo</p> */}
-
-
-// const divs = []
-  
-// for (let i = 0; i <= 8000; i++) {
-//     divs.push(<div className="square"></div>)
-// }

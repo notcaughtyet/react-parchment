@@ -40,10 +40,11 @@
 	border-left: none;
 	caret-color: #ce3636;
   font-weight: 800;
-  height: 2.3vh;
+  height: 2vh;
   width: 20vh;
   font-size: 11pt;
   resize: none;
+  /* transform: rotate(34deg) */
   }
 
 .mainInput:focus {
@@ -56,9 +57,16 @@
 
 
 
+.highlightTool {
+  position: absolute;
+  border: 2px solid #ce3636;
+}
+
+
+
 
 .text1 {
-  position: absolute;
+  position: fixed;
 }
 
 .textSpan {
@@ -67,7 +75,7 @@
 }
 
 .textSpan:hover {
-  border-color: black;
+  border: 2px solid black;
   cursor: pointer;
   padding: 1px;
 }
